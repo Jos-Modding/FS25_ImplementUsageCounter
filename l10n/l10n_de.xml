@@ -1,0 +1,6 @@
+<l10n>
+    <elements>
+        <e k="input_BALE_WRAP_COUNTER_RESET" v="Ballenwickelzähler zurücksetzen"/>
+        <e k="info_baleWrapCounter" v="Ballen gewickelt"/>
+    </elements>
+</l10n>

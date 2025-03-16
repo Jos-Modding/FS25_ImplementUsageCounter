@@ -1,0 +1,6 @@
+<l10n>
+    <elements>
+        <e k="input_BALE_WRAP_COUNTER_RESET" v="Reset Bale Wrap Counter"/>
+        <e k="info_baleWrapCounter" v="Bales wrapped"/>
+    </elements>
+</l10n>

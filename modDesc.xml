@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="95">
+    <author>Jos</author>
+    <version>1.0.0.0</version>
+    <title>
+        <en>Bale Wrap Counter</en>
+        <de>Ballenwickler Zähler</de>
+    </title>
+    <description>
+        <en><![CDATA[Adds a bale wrapping counter to any bale wrapper or baler that supports wrapping.
+Like the basegame bale counter, this counter has a session and lifetime counter.
+
+The session counter can be reset, however to avoid filling up your help menu, you have to set a key binding yourself through the default game settings.
+
+Compatible with the following mods:
+- FS25_roundBalerExtension (tested version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (tested version 1.0.0.0)
+]]>
+        </en>
+        <de><![CDATA[Fügt jedem Ballenwickler oder jeder Ballenpresse, die das Wickeln unterstützt, einen Ballenwickelzähler hinzu.
+Wie der Ballenzähler des Basisspiels verfügt dieser Zähler über einen Sitzungs- und einen Lebensdauerzähler.
+
+Der Sitzungszähler kann zurückgesetzt werden. Um jedoch zu vermeiden, dass Ihr Hilfemenü voll wird, müssen Sie über die Standardspieleinstellungen selbst eine Tastenkombination festlegen.
+
+Kompatibel mit den folgenden Mods:
+- FS25_roundBalerExtension (getestete Version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (getestete Version 1.0.0.0)
+]]>
+        </de>
+    </description>
+    <iconFilename>icon_ImplementUsageCounter.dds</iconFilename>
+    <multiplayer supported="true"/>
+    <l10n filenamePrefix="l10n/l10n"/>
+    <extraSourceFiles>
+        <sourceFile filename="src/main.lua"/>
+    </extraSourceFiles>
+    <actions>
+        <action name="BALE_WRAP_COUNTER_RESET" category="VEHICLE" ignoreComboMask="false"/>
+    </actions>
+    <inputBinding>
+        <actionBinding action="BALE_WRAP_COUNTER_RESET" />
+    </inputBinding>
+</modDesc>
