@@ -17,7 +17,7 @@ Compatible with the following mods:
 
 - **Farming Simulator Version:** FS25
 - **Required Mods/Software (if applicable):** None
-- **Platform:** PC / PS5 / XBOX
+- **Platform:** PC
 
 ## Installation
 
