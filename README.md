@@ -47,7 +47,7 @@ We welcome contributions! If you'd like to contribute, please:
 ## Credits
 
 - **Author(s):** Jos
-- **Special Thanks:** Marty, All players
+- **Special Thanks:** All players
 
 ## License
 
