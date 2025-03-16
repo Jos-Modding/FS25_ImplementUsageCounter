@@ -1,16 +1,17 @@
-# Dirtynator
+# Bale Wrap Counter
 
-Don't like your equipment clean? Spray them dirty with the Dirtynator.
+Adds a bale wrapping counter to any bale wrapper or baler that supports wrapping.
+Like the basegame bale counter, this counter has a session and lifetime counter.
 
-Dirtynator (placeable)
-Category: Tools
-Price: $2,000
+The session counter can be reset, however to avoid filling up your help menu, you have to set a key binding yourself through the default game settings.
 
-Dirtynator (vehicle)
-Category: Hand Tools > Miscellaneous
-Price: $2,000
-Power: 7 hp
-Max. speed: 7 kph
+Compatible with the following mods:
+- FS25_roundBalerExtension (tested version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (tested version 1.0.0.0)
+
+# Roadmap
+
+- Implement counters for different tools
 
 ## Requirements
 
@@ -21,17 +22,17 @@ Max. speed: 7 kph
 ## Installation
 
 1. **Download the Mod:**
-    - Download the latest release from the [Releases page](https://github.com/Jos-Modding/FS25_Dirtynator/releases).
+    - Download the latest release from the [Releases page](https://github.com/Jos-Modding/FS25_ImplementUsageCounter/releases).
 
 2. **Install the Mod:**
-    - Copy _FS25_Dirtynator.zip_ to your `mods` directory of your Farming Simulator.
+    - Copy _FS25_ImplementUsageCounter.zip_ to your `mods` directory of your Farming Simulator.
 
 3. **Activate the Mod:**
     - Launch Farming Simulator and active the mod when loading your savegame.
 
 ## Reporting Issues
 
-If you encounter any issues, please feel free to open a bug report on the [Issues](https://github.com/Jos-Modding/FS25_Dirtynator/issues) tab.
+If you encounter any issues, please feel free to open a bug report on the [Issues](https://github.com/Jos-Modding/FS25_ImplementUsageCounter/issues) tab.
 
 ## Contributing
 
@@ -50,8 +51,8 @@ We welcome contributions! If you'd like to contribute, please:
 
 ## License
 
-This mod is licensed under the MIT License. See the [LICENSE](https://github.com/Jos-Modding/FS25_Dirtynator/blob/main/LICENSE) file for more information.
+This mod is licensed under the MIT License. See the [LICENSE](https://github.com/Jos-Modding/FS25_ImplementUsageCounter/blob/main/LICENSE) file for more information.
 
 ---
 
-Thank you for using the **FS25 Dirtynator**. We hope it improves your gameplay experience!
+Thank you for using the **FS25 Bale Wrap Counter**. We hope it improves your gameplay experience!
