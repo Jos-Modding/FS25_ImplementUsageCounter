@@ -60,8 +60,6 @@ end
 
 ---
 function BaleWrapCounter:onLoadFinished(savegame)
-    assert(self.isServer)
-
     --These mods overwrite doStateChange
     if g_modIsLoaded["FS25_roundBalerExtension"] or g_modIsLoaded["FS25_SwitchableBaleWrappersforBalers"] then
         self.doStateChange = Utils.prependedFunction(BaleWrapper.doStateChange, BaleWrapCounter.inj_doStateChange)
@@ -178,7 +176,6 @@ end
 -- @param integer id id of new state
 -- @param integer nearestBaleServerId server id of nearest bale
 function BaleWrapCounter:doStateChange(superFunc, id, nearestBaleServerId)
-    assert(self.isServer)
     local spec = self.spec_baleWrapper
 
     if id == BaleWrapper.CHANGE_WRAPPING_BALE_FINSIHED then
@@ -201,7 +198,6 @@ end
 -- @param integer id id of new state
 -- @param integer nearestBaleServerId server id of nearest bale
 function BaleWrapCounter:inj_doStateChange(id, nearestBaleServerId)
-    assert(self.isServer)
     local spec = self.spec_baleWrapper
 
     if id == BaleWrapper.CHANGE_WRAPPING_BALE_FINSIHED then
