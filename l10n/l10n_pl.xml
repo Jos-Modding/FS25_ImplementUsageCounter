@@ -1,0 +1,6 @@
+<l10n>
+    <elements>
+        <e k="input_BALE_WRAP_COUNTER_RESET" v="Zresetuj licznik owiniętych bel"/>
+        <e k="info_baleWrapCounter" v="Owinięte bele"/>
+    </elements>
+</l10n>
