@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="96">
     <author>Jos</author>
-    <version>1.0.0.1</version>
+    <version>1.0.1.0</version>
     <title>
-        <en>Bale Wrap Counter</en>
+        <en>Implement Usage Counter</en>
         <de>Ballenwickler Zähler</de>
     </title>
     <description>
-        <en><![CDATA[Adds a bale wrapping counter to any bale wrapper or baler that supports wrapping.
-Like the basegame bale counter, this counter has a session and lifetime counter.
+        <en><![CDATA[Worked area is recorded per implement and shown in the help menu.
 
-The session counter can be reset, however to avoid filling up your help menu, you have to set a key binding yourself through the default game settings.
+Supported actions:
+- Bale Wrapping
+- Cultivation (all types)
+- Harvesting
+- Mowing
+- Plowing
+- Seeding / planting
+- Fertilizing / spraying
 
-Compatible with the following mods:
-- FS25_roundBalerExtension (tested version 1.1.0.0)
-- FS25_SwitchableBaleWrappersforBalers (tested version 1.0.0.0)
+Compatibility tested with:
+- FS25_roundBalerExtension (version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
+- FS25_UnloadBalesEarly (version 1.1.1.1)
+
+Changelog 1.0.1.0:
+- Reworked mod to Implement Usage Counter
 
 Changelog 1.0.0.1:
 - Fixed conflict with FS25_UnloadBalesEarly (version 1.1.1.1)
@@ -25,7 +35,6 @@ Latest version and bug reports on <a href="https://github.com/Jos-Modding/FS25_I
         <de><![CDATA[Fügt jedem Ballenwickler oder jeder Ballenpresse, die das Wickeln unterstützt, einen Ballenwickelzähler hinzu.
 Wie der Ballenzähler des Basisspiels verfügt dieser Zähler über einen Sitzungs- und einen Lebensdauerzähler.
 
-Der Sitzungszähler kann zurückgesetzt werden. Um jedoch zu vermeiden, dass Ihr Hilfemenü voll wird, müssen Sie über die Standardspieleinstellungen selbst eine Tastenkombination festlegen.
 
 Kompatibel mit den folgenden Mods:
 - FS25_roundBalerExtension (getestete Version 1.1.0.0)
@@ -41,13 +50,16 @@ Aktuelle Version und Fehlerberichte auf <a href="https://github.com/Jos-Modding/
     <iconFilename>icon_ImplementUsageCounter.dds</iconFilename>
     <multiplayer supported="true"/>
     <l10n filenamePrefix="l10n/l10n"/>
+    <specializations>
+        <specialization name="baleWrapCounter" className="BaleWrapCounter" filename="src/specializations/BaleWrapCounter.lua" />
+        <specialization name="cultivatorCounter" className="CultivatorCounter" filename="src/specializations/CultivatorCounter.lua" />
+        <specialization name="cutterCounter" className="CutterCounter" filename="src/specializations/CutterCounter.lua" />
+        <specialization name="mowerCounter" className="MowerCounter" filename="src/specializations/MowerCounter.lua" />
+        <specialization name="plowCounter" className="PlowCounter" filename="src/specializations/PlowCounter.lua" />
+        <specialization name="sowingMachineCounter" className="SowingMachineCounter" filename="src/specializations/SowingMachineCounter.lua" />
+        <specialization name="sprayerCounter" className="SprayerCounter" filename="src/specializations/SprayerCounter.lua" />
+    </specializations>
     <extraSourceFiles>
         <sourceFile filename="src/main.lua"/>
     </extraSourceFiles>
-    <actions>
-        <action name="BALE_WRAP_COUNTER_RESET" category="VEHICLE" ignoreComboMask="false"/>
-    </actions>
-    <inputBinding>
-        <actionBinding action="BALE_WRAP_COUNTER_RESET" />
-    </inputBinding>
 </modDesc>

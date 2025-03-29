@@ -1,22 +1,37 @@
-source(Utils.getFilename("src/BaleWrapCounterHUDExtension.lua", g_currentModDirectory))
-source(Utils.getFilename("src/BaleWrapCounterResetEvent.lua", g_currentModDirectory))
+local modName = g_currentModName or "unknown"
 
-g_specializationManager:addSpecialization("baleWrapCounter", "BaleWrapCounter", Utils.getFilename("src/BaleWrapCounter.lua", g_currentModDirectory), "")
+local function initSpecializations(manager)
+    if manager.typeName == "vehicle" then
+        for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
+            if SpecializationUtil.hasSpecialization(BaleWrapper, typeEntry.specializations) or SpecializationUtil.hasSpecialization(InlineWrapper, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".baleWrapCounter")
+            end
 
-for vehicleName, vehicleType in pairs(g_vehicleTypeManager.types) do
-    if SpecializationUtil.hasSpecialization(BaleWrapper, vehicleType.specializations) then
-        g_vehicleTypeManager:addSpecialization(vehicleName, g_currentModName .. ".baleWrapCounter")
-    end
+            if SpecializationUtil.hasSpecialization(Cultivator, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".cultivatorCounter")
+            end
 
-    if SpecializationUtil.hasSpecialization(InlineWrapper, vehicleType.specializations) then
-        g_vehicleTypeManager:addSpecialization(vehicleName, g_currentModName .. ".baleWrapCounter")
+            if SpecializationUtil.hasSpecialization(Cutter, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".cutterCounter")
+            end
+
+            if SpecializationUtil.hasSpecialization(Mower, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".mowerCounter")
+            end
+
+            if SpecializationUtil.hasSpecialization(Plow, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".plowCounter")
+            end
+
+            if SpecializationUtil.hasSpecialization(SowingMachine, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".sowingMachineCounter")
+            end
+
+            if SpecializationUtil.hasSpecialization(Sprayer, typeEntry.specializations) then
+                g_vehicleTypeManager:addSpecialization(typeName, modName .. ".sprayerCounter")
+            end
+        end
     end
 end
 
---print("# BaleCounter")
---print_r(BaleCounter)
---print("# BaleCounterHUDExtension")
---print_r(BaleCounterHUDExtension)
---print("# BaleCounterResetEvent")
---print_r(BaleCounterResetEvent)
---print_r(BaleWrapper)
+TypeManager.validateTypes = Utils.prependedFunction(TypeManager.validateTypes, initSpecializations)
