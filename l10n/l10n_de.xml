@@ -1,13 +1,11 @@
 <l10n>
     <elements>
-        <e k="input_BALE_WRAP_COUNTER_RESET" v="Ballenwickelzähler zurücksetzen"/>
-        <e k="info_baleWrapCounter" v="Ballen gewickelt"/>
-        <e k="statistic_baleWrapperCounter" v="Bales wrapped %d" />
-        <e k="statistic_cultivatorCounter" v="Cultivated %.3f %s" />
-        <e k="statistic_cutterCounter" v="Threshed %.3f %s" />
-        <e k="statistic_mowerCounter" v="Harvested %.3f %s" />
-        <e k="statistic_plowCounter" v="Plowed %.3f %s" />
-        <e k="statistic_sowingMachineCounter" v="Sown %.3f %s" />
-        <e k="statistic_sprayerCounter" v="Sprayed %.3f %s" />
+        <e k="statistic_baleWrapperCounter" v="Gewickelte Ballen: %d" />
+        <e k="statistic_cultivatorCounter" v="Gekultiviert %.3f %s" />
+        <e k="statistic_cutterCounter" v="Geerntet %.3f %s" />
+        <e k="statistic_mowerCounter" v="Gemäht %.3f %s" />
+        <e k="statistic_plowCounter" v="Gepflügt %.3f %s" />
+        <e k="statistic_sowingMachineCounter" v="Gesät %.3f %s" />
+        <e k="statistic_sprayerCounter" v="Gespritzt %.3f %s" />
     </elements>
 </l10n>

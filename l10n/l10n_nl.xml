@@ -1,0 +1,11 @@
+<l10n>
+    <elements>
+        <e k="statistic_baleWrapperCounter" v="Balen wrapped %d" />
+        <e k="statistic_cultivatorCounter" v="Gecultiveerd %.3f %s" />
+        <e k="statistic_cutterCounter" v="Gedorst %.3f %s" />
+        <e k="statistic_mowerCounter" v="Gemaaid %.3f %s" />
+        <e k="statistic_plowCounter" v="Geploegd %.3f %s" />
+        <e k="statistic_sowingMachineCounter" v="Gezaaid %.3f %s" />
+        <e k="statistic_sprayerCounter" v="Besproeid %.3f %s" />
+    </elements>
+</l10n>

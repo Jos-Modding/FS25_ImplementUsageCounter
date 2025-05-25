@@ -1,7 +1,5 @@
 <l10n>
     <elements>
-        <e k="input_BALE_WRAP_COUNTER_RESET" v="Reset Bale Wrap Counter"/>
-        <e k="info_baleWrapCounter" v="Bales wrapped"/>
         <e k="statistic_baleWrapperCounter" v="Bales wrapped %d" />
         <e k="statistic_cultivatorCounter" v="Cultivated %.3f %s" />
         <e k="statistic_cutterCounter" v="Harvested %.3f %s" />
