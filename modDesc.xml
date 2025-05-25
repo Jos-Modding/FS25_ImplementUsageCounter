@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="96">
+<modDesc descVersion="98">
     <author>Jos</author>
-    <version>1.0.1.0</version>
+    <version>1.1.0.0</version>
     <title>
         <en>Implement Usage Counter</en>
-        <de>Ballenwickler Zähler</de>
+        <de>Gerätenutzungszähler</de>
     </title>
     <description>
-        <en><![CDATA[Worked area is recorded per implement and shown in the help menu.
+        <en><![CDATA[Worked area is recorded per implement and shown in the F1/help menu.
 
 Supported actions:
 - Bale Wrapping
@@ -23,27 +23,38 @@ Compatibility tested with:
 - FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
 - FS25_UnloadBalesEarly (version 1.1.1.1)
 
-Changelog 1.0.1.0:
+Latest version and bug reports on <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
+
+Changelog 1.1.0.0:
 - Reworked mod to Implement Usage Counter
 
 Changelog 1.0.0.1:
 - Fixed conflict with FS25_UnloadBalesEarly (version 1.1.1.1)
-
-Latest version and bug reports on <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
 ]]>
         </en>
-        <de><![CDATA[Fügt jedem Ballenwickler oder jeder Ballenpresse, die das Wickeln unterstützt, einen Ballenwickelzähler hinzu.
-Wie der Ballenzähler des Basisspiels verfügt dieser Zähler über einen Sitzungs- und einen Lebensdauerzähler.
+        <de><![CDATA[Die bearbeitete Fläche wird pro Gerät erfasst und im F1-/Hilfemenü angezeigt.
 
+Unterstützte Aktionen:
+– Ballenwickeln
+– Bodenbearbeitung (alle Arten)
+– Ernten
+– Mähen
+– Pflügen
+– Säen/Pflanzen
+– Düngen/Sprühen
 
 Kompatibel mit den folgenden Mods:
-- FS25_roundBalerExtension (getestete Version 1.1.0.0)
-- FS25_SwitchableBaleWrappersforBalers (getestete Version 1.0.0.0)
+- FS25_roundBalerExtension (version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
+- FS25_UnloadBalesEarly (version 1.1.1.1)
+
+Aktuelle Version und Fehlerberichte auf <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
+
+Changelog 1.1.0.0:
+- Überarbeiteter Mod zur Gerätenutzungszähler
 
 Changelog 1.0.0.1:
 - Konflikt behoben mit FS25_UnloadBalesEarly (Version 1.1.1.1)
-
-Aktuelle Version und Fehlerberichte auf <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
 ]]>
         </de>
     </description>

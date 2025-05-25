@@ -1,13 +1,22 @@
-# Bale Wrap Counter
+# Implement Usage Counter
 
-Adds a bale wrapping counter to any bale wrapper or baler that supports wrapping.
-Like the basegame bale counter, this counter has a session and lifetime counter.
+[Download](https://github.com/Jos-Modding/FS25_ImplementUsageCounter/releases)
 
-The session counter can be reset, however to avoid filling up your help menu, you have to set a key binding yourself through the default game settings.
+Worked area is recorded per implement and shown in the F1/help menu.
 
-Compatible with the following mods:
-- FS25_roundBalerExtension (tested version 1.1.0.0)
-- FS25_SwitchableBaleWrappersforBalers (tested version 1.0.0.0)
+Supported actions:
+- Bale Wrapping
+- Cultivation (all types)
+- Harvesting
+- Mowing
+- Plowing
+- Seeding / planting
+- Fertilizing / spraying
+
+Compatibility tested with:
+- FS25_roundBalerExtension (version 1.1.0.0)
+- FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
+- FS25_UnloadBalesEarly (version 1.1.1.1)
 
 # Roadmap
 
@@ -55,4 +64,4 @@ This mod is licensed under the MIT License. See the [LICENSE](https://github.com
 
 ---
 
-Thank you for using the **FS25 Bale Wrap Counter**. We hope it improves your gameplay experience!
+Thank you for using the **FS25 Implement Usage Counter**. We hope it improves your gameplay experience!

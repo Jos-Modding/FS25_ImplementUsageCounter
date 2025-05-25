@@ -7,7 +7,7 @@
         <e k="statistic_cutterCounter" v="Threshed %.3f %s" />
         <e k="statistic_mowerCounter" v="Harvested %.3f %s" />
         <e k="statistic_plowCounter" v="Plowed %.3f %s" />
-        <e k="statistic_sowingCounter" v="Sowed %.3f %s" />
+        <e k="statistic_sowingMachineCounter" v="Sown %.3f %s" />
         <e k="statistic_sprayerCounter" v="Sprayed %.3f %s" />
     </elements>
 </l10n>
