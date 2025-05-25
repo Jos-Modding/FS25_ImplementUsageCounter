@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="98">
     <author>Jos</author>
+    <translators>Darindul, Ziuta</translators>
     <version>1.1.0.0</version>
     <title>
         <en>Implement Usage Counter</en>
