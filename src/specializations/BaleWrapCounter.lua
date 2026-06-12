@@ -12,11 +12,12 @@ end
 function BaleWrapCounter.initSpecialization()
     local schema = Vehicle.xmlSchema
     schema:setXMLSpecializationType("BaleWrapCounter")
-    Dashboard.registerDashboardXMLPaths(schema, "vehicle.baleWrapCounter.dashoards", {"lifetimeCounter"})
+    Dashboard.registerDashboardXMLPaths(schema, "vehicle.baleWrapCounter.dashoards", {"lifetimeCounter", "sessionCounter"})
     schema:setXMLSpecializationType()
 
     local schemaSavegame = Vehicle.xmlSchemaSavegame
     schemaSavegame:register(XMLValueType.INT, BaleWrapCounter.schemaKey .. "#lifetimeCounter", "Lifetime counter")
+    schemaSavegame:register(XMLValueType.INT, BaleWrapCounter.schemaKey .. "#sessionCounter", "Session counter")
 end
 
 function BaleWrapCounter.registerOverwrittenFunctions(vehicleType)
@@ -32,6 +33,7 @@ function BaleWrapCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoadFinished", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterDashboardValueTypes", BaleWrapCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", BaleWrapCounter)
 end
@@ -40,9 +42,12 @@ end
 function BaleWrapCounter:onLoad(savegame)
     local spec = self[BaleWrapCounter.specName]
     spec.lifetimeCounter = 0
+    spec.sessionCounter = 0
+    spec.counterActionEvents = {}
 
     if savegame ~= nil and not savegame.resetVehicles then
         spec.lifetimeCounter = savegame.xmlFile:getValue(savegame.key .. "." .. BaleWrapCounter.modName .. ".baleWrapCounter#lifetimeCounter", spec.lifetimeCounter) or 0
+        spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. BaleWrapCounter.modName .. ".baleWrapCounter#sessionCounter", spec.sessionCounter) or 0
     end
 end
 
@@ -59,6 +64,7 @@ end
 function BaleWrapCounter:onDraw()
     local spec = self[BaleWrapCounter.specName]
     local text = g_i18n:getText("statistic_baleWrapperCounter"):format(spec.lifetimeCounter)
+        .. g_i18n:getText("statistic_sessionCount"):format(spec.sessionCounter)
 
     g_currentMission:addExtraPrintText(text)
 end
@@ -70,11 +76,38 @@ function BaleWrapCounter:onRegisterDashboardValueTypes()
     local lifetimeCounter = DashboardValueType.new("baleWrapCounter", "lifetimeCounter")
     lifetimeCounter:setValue(spec, "lifetimeCounter")
     self:registerDashboardValueType(lifetimeCounter)
+
+    local sessionCounter = DashboardValueType.new("baleWrapCounter", "sessionCounter")
+    sessionCounter:setValue(spec, "sessionCounter")
+    self:registerDashboardValueType(sessionCounter)
+end
+
+---
+function BaleWrapCounter:onRegisterActionEvents(isActiveForInput, isActiveForInputIgnoreSelection)
+    if self.isClient then
+        local spec = self[BaleWrapCounter.specName]
+        spec.counterActionEvents = spec.counterActionEvents or {}
+        self:clearActionEventsTable(spec.counterActionEvents)
+
+        if isActiveForInputIgnoreSelection then
+            local _, actionEventId = self:addActionEvent(spec.counterActionEvents, InputAction.IMPLEMENT_USAGE_COUNTER_RESET, self, BaleWrapCounter.actionEventResetCounter, false, true, false, true, nil)
+            g_inputBinding:setActionEventText(actionEventId, g_i18n:getText("input_IMPLEMENT_USAGE_COUNTER_RESET"))
+            g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_LOW)
+        end
+    end
+end
+
+---
+function BaleWrapCounter:actionEventResetCounter()
+    local spec = self[BaleWrapCounter.specName]
+    spec.sessionCounter = 0
+    UsageCounterResetEvent.sendEvent(self, BaleWrapCounter.specName)
 end
 
 function BaleWrapCounter:saveToXMLFile(xmlFile, key, usedModNames)
     local spec = self[BaleWrapCounter.specName]
     xmlFile:setValue(key .. "#lifetimeCounter", spec.lifetimeCounter)
+    xmlFile:setValue(key .. "#sessionCounter", spec.sessionCounter)
 end
 
 
@@ -84,6 +117,7 @@ end
 function BaleWrapCounter:onReadStream(streamId, connection)
     local spec = self[BaleWrapCounter.specName]
     spec.lifetimeCounter = streamReadUIntN(streamId, BaleWrapCounter.SEND_NUM_BITS)
+    spec.sessionCounter = streamReadUIntN(streamId, BaleWrapCounter.SEND_NUM_BITS)
 end
 
 ---Called on server side on join
@@ -92,6 +126,7 @@ end
 function BaleWrapCounter:onWriteStream(streamId, connection)
     local spec = self[BaleWrapCounter.specName]
     streamWriteUIntN(streamId, spec.lifetimeCounter, BaleWrapCounter.SEND_NUM_BITS)
+    streamWriteUIntN(streamId, spec.sessionCounter, BaleWrapCounter.SEND_NUM_BITS)
 end
 
 
@@ -109,6 +144,7 @@ function BaleWrapCounter:doStateChange(superFunc, id, nearestBaleServerId)
         if not skippedWrapping then
             local specCounter = self[BaleWrapCounter.specName]
             specCounter.lifetimeCounter = specCounter.lifetimeCounter + 1
+            specCounter.sessionCounter = specCounter.sessionCounter + 1
         end
     end
 
@@ -130,6 +166,7 @@ function BaleWrapCounter:inj_doStateChange(id, nearestBaleServerId)
         if not skippedWrapping then
             local specCounter = self[BaleWrapCounter.specName]
             specCounter.lifetimeCounter = specCounter.lifetimeCounter + 1
+            specCounter.sessionCounter = specCounter.sessionCounter + 1
         end
     end
 end
@@ -147,5 +184,6 @@ function BaleWrapCounter:pushOffInlineBale()
         local currentInlineBale = self:getCurrentInlineBale()
         local balesToAdd = math.max(1, currentInlineBale:getNumberOfBales())
         specCounter.lifetimeCounter = specCounter.lifetimeCounter + balesToAdd
+        specCounter.sessionCounter = specCounter.sessionCounter + balesToAdd
     end
 end

@@ -7,5 +7,8 @@
         <e k="statistic_plowCounter" v="Gepflügt %.3f %s" />
         <e k="statistic_sowingMachineCounter" v="Gesät %.3f %s" />
         <e k="statistic_sprayerCounter" v="Gespritzt %.3f %s" />
+        <e k="statistic_sessionArea" v=" | Sitzung: %.3f %s" />
+        <e k="statistic_sessionCount" v=" | Sitzung: %d" />
+        <e k="input_IMPLEMENT_USAGE_COUNTER_RESET" v="Sitzungszähler zurücksetzen" />
     </elements>
 </l10n>

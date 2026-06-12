@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="98">
+<modDesc descVersion="109">
     <author>Jos</author>
     <translators>Darindul, Ziuta</translators>
     <version>1.1.0.0</version>
@@ -72,6 +72,15 @@ Changelog 1.0.0.1:
         <specialization name="sprayerCounter" className="SprayerCounter" filename="src/specializations/SprayerCounter.lua" />
     </specializations>
     <extraSourceFiles>
+        <sourceFile filename="src/events/UsageCounterResetEvent.lua"/>
         <sourceFile filename="src/main.lua"/>
     </extraSourceFiles>
+    <actions>
+        <action name="IMPLEMENT_USAGE_COUNTER_RESET" />
+    </actions>
+    <inputBinding>
+        <actionBinding action="IMPLEMENT_USAGE_COUNTER_RESET">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_period" />
+        </actionBinding>
+    </inputBinding>
 </modDesc>
