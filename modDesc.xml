@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="109">
     <author>Jos</author>
-    <translators>Darindul, Ziuta</translators>
     <version>1.2.0.0</version>
     <title>
         <en>Implement Usage Counter</en>
@@ -27,7 +26,7 @@ Compatibility tested with:
 Latest version and bug reports on GitHub: Jos-Modding/FS25_ImplementUsageCounter.
 
 Changelog 1.2.0.0:
-- Added session counter, with key binding to reset it,
+- Added session counter, with key binding to reset it.
 
 Changelog 1.1.0.0:
 - Reworked mod to Implement Usage Counter
@@ -48,6 +47,9 @@ Unterstützte Aktionen:
 – Düngen/Sprühen
 
 Aktuelle Version und Fehlerberichte auf GitHub: Jos-Modding/FS25_ImplementUsageCounter.
+
+Changelog 1.2.0.0:
+- Sitzungszähler hinzugefügt, mit Tastenkombination zum Zurücksetzen.
 
 Changelog 1.1.0.0:
 - Überarbeiteter Mod zur Gerätenutzungszähler
