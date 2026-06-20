@@ -3,7 +3,7 @@ SowingMachineCounter.modName = g_currentModName
 SowingMachineCounter.schemaKey = ("vehicles.vehicle(?).%s.sowingMachineCounter#area"):format(g_currentModName)
 SowingMachineCounter.sessionSchemaKey = ("vehicles.vehicle(?).%s.sowingMachineCounter#session"):format(g_currentModName)
 
----@param specializations table
+---
 function SowingMachineCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(SowingMachine, specializations)
 end
@@ -23,6 +23,7 @@ end
 ---
 function SowingMachineCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", SowingMachineCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", SowingMachineCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", SowingMachineCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", SowingMachineCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", SowingMachineCounter)
@@ -31,7 +32,7 @@ function SowingMachineCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onEndWorkAreaProcessing", SowingMachineCounter)
 end
 
----@param savegame table
+---
 function SowingMachineCounter:onLoad(savegame)
     local spec = self.spec_sowingMachine
     spec.usageCounter = 0
@@ -42,30 +43,39 @@ function SowingMachineCounter:onLoad(savegame)
         spec.usageCounter = savegame.xmlFile:getValue(savegame.key .. "." .. SowingMachineCounter.modName .. ".sowingMachineCounter#area", spec.usageCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. SowingMachineCounter.modName .. ".sowingMachineCounter#session", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, "spec_sowingMachine", g_i18n:getText("hud_sowingMachineCounter"), true)
+    end
+end
+
+---
+function SowingMachineCounter:onDelete()
+    local spec = self.spec_sowingMachine
+
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
 end
 
 ---
 function SowingMachineCounter:onDraw()
     local spec = self.spec_sowingMachine
-    local unit = g_i18n:getAreaUnit(true)
-    local area = g_i18n:getArea(spec.usageCounter)
-    local sessionArea = g_i18n:getArea(spec.sessionCounter)
-    local text = g_i18n:getText("statistic_sowingMachineCounter"):format(area, unit)
-        .. g_i18n:getText("statistic_sessionArea"):format(sessionArea, unit)
 
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
----@param streamId number
----@param connection number
+---
 function SowingMachineCounter:onReadStream(streamId, connection)
     local spec = self.spec_sowingMachine
     spec.usageCounter = streamReadFloat32(streamId)
     spec.sessionCounter = streamReadFloat32(streamId)
 end
 
----@param streamId number
----@param connection number
+---
 function SowingMachineCounter:onWriteStream(streamId, connection)
     local spec = self.spec_sowingMachine
     streamWriteFloat32(streamId, spec.usageCounter)

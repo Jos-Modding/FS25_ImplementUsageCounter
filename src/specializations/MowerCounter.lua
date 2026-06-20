@@ -3,7 +3,7 @@ MowerCounter.modName = g_currentModName
 MowerCounter.schemaKey = ("vehicles.vehicle(?).%s.mowerCounter#area"):format(g_currentModName)
 MowerCounter.sessionSchemaKey = ("vehicles.vehicle(?).%s.mowerCounter#session"):format(g_currentModName)
 
----@param specializations table
+---
 function MowerCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(Mower, specializations)
 end
@@ -23,6 +23,7 @@ end
 ---
 function MowerCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", MowerCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", MowerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", MowerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", MowerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", MowerCounter)
@@ -31,7 +32,7 @@ function MowerCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onEndWorkAreaProcessing", MowerCounter)
 end
 
----@param savegame table
+---
 function MowerCounter:onLoad(savegame)
     local spec = self.spec_mower
     spec.usageCounter = 0
@@ -42,18 +43,29 @@ function MowerCounter:onLoad(savegame)
         spec.usageCounter = savegame.xmlFile:getValue(savegame.key .. "." .. MowerCounter.modName .. ".mowerCounter#area", spec.usageCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. MowerCounter.modName .. ".mowerCounter#session", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, "spec_mower", g_i18n:getText("hud_mowerCounter"), true)
+    end
+end
+
+---
+function MowerCounter:onDelete()
+    local spec = self.spec_mower
+
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
 end
 
 ---
 function MowerCounter:onDraw()
     local spec = self.spec_mower
-    local unit = g_i18n:getAreaUnit(true)
-    local area = g_i18n:getArea(spec.usageCounter)
-    local sessionArea = g_i18n:getArea(spec.sessionCounter)
-    local text = g_i18n:getText("statistic_mowerCounter"):format(area, unit)
-        .. g_i18n:getText("statistic_sessionArea"):format(sessionArea, unit)
 
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
 ---@param streamId number

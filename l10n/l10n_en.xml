@@ -4,9 +4,18 @@
         <e k="statistic_cultivatorCounter" v="Cultivated %.3f %s" />
         <e k="statistic_cutterCounter" v="Harvested %.3f %s" />
         <e k="statistic_mowerCounter" v="Mowed %.3f %s" />
+        <e k="statistic_mulcherCounter" v="Mulched %.3f %s" />
         <e k="statistic_plowCounter" v="Plowed %.3f %s" />
         <e k="statistic_sowingMachineCounter" v="Sown %.3f %s" />
         <e k="statistic_sprayerCounter" v="Sprayed %.3f %s" />
+        <e k="hud_baleWrapCounter" v="Bales wrapped" />
+        <e k="hud_cultivatorCounter" v="Cultivated" />
+        <e k="hud_cutterCounter" v="Harvested" />
+        <e k="hud_mowerCounter" v="Mowed" />
+        <e k="hud_mulcherCounter" v="Mulched" />
+        <e k="hud_plowCounter" v="Plowed" />
+        <e k="hud_sowingMachineCounter" v="Sown" />
+        <e k="hud_sprayerCounter" v="Sprayed" />
         <e k="statistic_sessionArea" v=" | Session: %.3f %s" />
         <e k="statistic_sessionCount" v=" | Session: %d" />
         <e k="input_IMPLEMENT_USAGE_COUNTER_RESET" v="Reset session counter" />

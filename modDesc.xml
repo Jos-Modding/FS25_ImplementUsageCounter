@@ -2,7 +2,7 @@
 <modDesc descVersion="109">
     <author>Jos</author>
     <translators>Darindul, Ziuta</translators>
-    <version>1.1.0.0</version>
+    <version>1.2.0.0</version>
     <title>
         <en>Implement Usage Counter</en>
         <de>Gerätenutzungszähler</de>
@@ -24,7 +24,10 @@ Compatibility tested with:
 - FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
 - FS25_UnloadBalesEarly (version 1.1.1.1)
 
-Latest version and bug reports on <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
+Latest version and bug reports on GitHub: Jos-Modding/FS25_ImplementUsageCounter.
+
+Changelog 1.2.0.0:
+- Added session counter, with key binding to reset it,
 
 Changelog 1.1.0.0:
 - Reworked mod to Implement Usage Counter
@@ -44,12 +47,7 @@ Unterstützte Aktionen:
 – Säen/Pflanzen
 – Düngen/Sprühen
 
-Kompatibel mit den folgenden Mods:
-- FS25_roundBalerExtension (version 1.1.0.0)
-- FS25_SwitchableBaleWrappersforBalers (version 1.0.0.0)
-- FS25_UnloadBalesEarly (version 1.1.1.1)
-
-Aktuelle Version und Fehlerberichte auf <a href="https://github.com/Jos-Modding/FS25_ImplementUsageCounter">GitHub</a>.
+Aktuelle Version und Fehlerberichte auf GitHub: Jos-Modding/FS25_ImplementUsageCounter.
 
 Changelog 1.1.0.0:
 - Überarbeiteter Mod zur Gerätenutzungszähler
@@ -72,7 +70,6 @@ Changelog 1.0.0.1:
         <specialization name="sprayerCounter" className="SprayerCounter" filename="src/specializations/SprayerCounter.lua" />
     </specializations>
     <extraSourceFiles>
-        <sourceFile filename="src/events/UsageCounterResetEvent.lua"/>
         <sourceFile filename="src/main.lua"/>
     </extraSourceFiles>
     <actions>

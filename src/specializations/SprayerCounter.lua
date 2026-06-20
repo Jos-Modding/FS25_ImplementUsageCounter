@@ -3,7 +3,7 @@ SprayerCounter.modName = g_currentModName
 SprayerCounter.schemaKey = ("vehicles.vehicle(?).%s.sprayerCounter#area"):format(g_currentModName)
 SprayerCounter.sessionSchemaKey = ("vehicles.vehicle(?).%s.sprayerCounter#session"):format(g_currentModName)
 
----@param specializations table
+---
 function SprayerCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(Sprayer, specializations)
 end
@@ -23,6 +23,7 @@ end
 ---
 function SprayerCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", SprayerCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", SprayerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", SprayerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", SprayerCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", SprayerCounter)
@@ -31,7 +32,7 @@ function SprayerCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onEndWorkAreaProcessing", SprayerCounter)
 end
 
----@param savegame table
+---
 function SprayerCounter:onLoad(savegame)
     local spec = self.spec_sprayer
     spec.usageCounter = 0
@@ -42,30 +43,39 @@ function SprayerCounter:onLoad(savegame)
         spec.usageCounter = savegame.xmlFile:getValue(savegame.key .. "." .. SprayerCounter.modName .. ".sprayerCounter#area", spec.usageCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. SprayerCounter.modName .. ".sprayerCounter#session", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, "spec_sprayer", g_i18n:getText("hud_sprayerCounter"), true)
+    end
+end
+
+---
+function SprayerCounter:onDelete()
+    local spec = self.spec_sprayer
+
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
 end
 
 ---
 function SprayerCounter:onDraw()
     local spec = self.spec_sprayer
-    local unit = g_i18n:getAreaUnit(true)
-    local area = g_i18n:getArea(spec.usageCounter)
-    local sessionArea = g_i18n:getArea(spec.sessionCounter)
-    local text = g_i18n:getText("statistic_sprayerCounter"):format(area, unit)
-        .. g_i18n:getText("statistic_sessionArea"):format(sessionArea, unit)
 
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
----@param streamId number
----@param connection number
+---
 function SprayerCounter:onReadStream(streamId, connection)
     local spec = self.spec_sprayer
     spec.usageCounter = streamReadFloat32(streamId)
     spec.sessionCounter = streamReadFloat32(streamId)
 end
 
----@param streamId number
----@param connection number
+---
 function SprayerCounter:onWriteStream(streamId, connection)
     local spec = self.spec_sprayer
     streamWriteFloat32(streamId, spec.usageCounter)

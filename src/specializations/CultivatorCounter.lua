@@ -24,6 +24,7 @@ end
 ---
 function CultivatorCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", CultivatorCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", CultivatorCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", CultivatorCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", CultivatorCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", CultivatorCounter)
@@ -43,18 +44,29 @@ function CultivatorCounter:onLoad(savegame)
         spec.usageCounter = savegame.xmlFile:getValue(savegame.key .. "." .. CultivatorCounter.modName .. ".cultivatorCounter#area", spec.usageCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. CultivatorCounter.modName .. ".cultivatorCounter#session", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, "spec_cultivator", g_i18n:getText("hud_cultivatorCounter"), true)
+    end
+end
+
+---
+function CultivatorCounter:onDelete()
+    local spec = self.spec_cultivator
+
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
 end
 
 ---
 function CultivatorCounter:onDraw()
     local spec = self.spec_cultivator
-    local unit = g_i18n:getAreaUnit(true)
-    local area = g_i18n:getArea(spec.usageCounter)
-    local sessionArea = g_i18n:getArea(spec.sessionCounter)
-    local text = g_i18n:getText("statistic_cultivatorCounter"):format(area, unit)
-        .. g_i18n:getText("statistic_sessionArea"):format(sessionArea, unit)
 
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
 ---@param streamId number

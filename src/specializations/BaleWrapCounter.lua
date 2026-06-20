@@ -5,10 +5,12 @@ BaleWrapCounter.modDir = g_currentModDirectory
 BaleWrapCounter.specName = ("spec_%s.baleWrapCounter"):format(g_currentModName)
 BaleWrapCounter.schemaKey = ("vehicles.vehicle(?).%s.baleWrapCounter"):format(g_currentModName)
 
+---
 function BaleWrapCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(BaleWrapper, specializations) or SpecializationUtil.hasSpecialization(InlineWrapper, specializations)
 end
 
+---
 function BaleWrapCounter.initSpecialization()
     local schema = Vehicle.xmlSchema
     schema:setXMLSpecializationType("BaleWrapCounter")
@@ -20,6 +22,7 @@ function BaleWrapCounter.initSpecialization()
     schemaSavegame:register(XMLValueType.INT, BaleWrapCounter.schemaKey .. "#sessionCounter", "Session counter")
 end
 
+---
 function BaleWrapCounter.registerOverwrittenFunctions(vehicleType)
     if vehicleType.name == "inlineWrapper" then
         SpecializationUtil.registerOverwrittenFunction(vehicleType, "pushOffInlineBale", BaleWrapCounter.pushOffInlineBale)
@@ -28,9 +31,11 @@ function BaleWrapCounter.registerOverwrittenFunctions(vehicleType)
     end
 end
 
+---
 function BaleWrapCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onLoadFinished", BaleWrapCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterDashboardValueTypes", BaleWrapCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", BaleWrapCounter)
@@ -49,6 +54,10 @@ function BaleWrapCounter:onLoad(savegame)
         spec.lifetimeCounter = savegame.xmlFile:getValue(savegame.key .. "." .. BaleWrapCounter.modName .. ".baleWrapCounter#lifetimeCounter", spec.lifetimeCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. BaleWrapCounter.modName .. ".baleWrapCounter#sessionCounter", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, BaleWrapCounter.specName, g_i18n:getText("hud_baleWrapCounter"), false, "lifetimeCounter")
+    end
 end
 
 ---
@@ -59,14 +68,21 @@ function BaleWrapCounter:onLoadFinished(savegame)
     end
 end
 
+---
+function BaleWrapCounter:onDelete()
+    local spec = self[BaleWrapCounter.specName]
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
+end
 
 ---
 function BaleWrapCounter:onDraw()
     local spec = self[BaleWrapCounter.specName]
-    local text = g_i18n:getText("statistic_baleWrapperCounter"):format(spec.lifetimeCounter)
-        .. g_i18n:getText("statistic_sessionCount"):format(spec.sessionCounter)
-
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
 ---Called on post load to register dashboard value types
@@ -110,7 +126,6 @@ function BaleWrapCounter:saveToXMLFile(xmlFile, key, usedModNames)
     xmlFile:setValue(key .. "#sessionCounter", spec.sessionCounter)
 end
 
-
 ---Called on client side on join
 -- @param integer streamId streamId
 -- @param integer connection connection
@@ -128,7 +143,6 @@ function BaleWrapCounter:onWriteStream(streamId, connection)
     streamWriteUIntN(streamId, spec.lifetimeCounter, BaleWrapCounter.SEND_NUM_BITS)
     streamWriteUIntN(streamId, spec.sessionCounter, BaleWrapCounter.SEND_NUM_BITS)
 end
-
 
 ---Changed wrapper state
 -- @param integer id id of new state
@@ -151,7 +165,6 @@ function BaleWrapCounter:doStateChange(superFunc, id, nearestBaleServerId)
     superFunc(self, id, nearestBaleServerId)
 end
 
-
 ---Changed wrapper state
 -- @param integer id id of new state
 -- @param integer nearestBaleServerId server id of nearest bale
@@ -170,7 +183,6 @@ function BaleWrapCounter:inj_doStateChange(id, nearestBaleServerId)
         end
     end
 end
-
 
 ---
 function BaleWrapCounter:pushOffInlineBale()

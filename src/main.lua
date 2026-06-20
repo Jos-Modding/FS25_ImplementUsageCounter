@@ -1,4 +1,7 @@
 local modName = g_currentModName or "unknown"
+local modDir = g_currentModDirectory or ""
+source(modDir .. "src/events/UsageCounterResetEvent.lua")
+source(modDir .. "src/gui/UsageCounterHUDExtension.lua")
 
 local function initSpecializations(manager)
     if manager.typeName == "vehicle" then

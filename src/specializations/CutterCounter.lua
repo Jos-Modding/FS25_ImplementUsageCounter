@@ -4,7 +4,7 @@ CutterCounter.modDir = g_currentModDirectory
 CutterCounter.schemaKey = ("vehicles.vehicle(?).%s.cutterCounter#area"):format(g_currentModName)
 CutterCounter.sessionSchemaKey = ("vehicles.vehicle(?).%s.cutterCounter#session"):format(g_currentModName)
 
----@param specializations table
+---
 function CutterCounter.prerequisitesPresent(specializations)
     return SpecializationUtil.hasSpecialization(Cutter, specializations)
 end
@@ -24,6 +24,7 @@ end
 ---
 function CutterCounter.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", CutterCounter)
+    SpecializationUtil.registerEventListener(vehicleType, "onDelete", CutterCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onDraw", CutterCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onReadStream", CutterCounter)
     SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", CutterCounter)
@@ -43,18 +44,27 @@ function CutterCounter:onLoad(savegame)
         spec.usageCounter = savegame.xmlFile:getValue(savegame.key .. "." .. CutterCounter.modName .. ".cutterCounter#area", spec.usageCounter) or 0
         spec.sessionCounter = savegame.xmlFile:getValue(savegame.key .. "." .. CutterCounter.modName .. ".cutterCounter#session", spec.sessionCounter) or 0
     end
+
+    if self.isClient then
+        spec.hudExtension = UsageCounterHUDExtension.new(self, "spec_cutter", g_i18n:getText("hud_cutterCounter"), true)
+    end
+end
+
+---
+function CutterCounter:onDelete()
+    local spec = self.spec_cutter
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:removeInfoExtension(spec.hudExtension)
+        spec.hudExtension:delete()
+    end
 end
 
 ---
 function CutterCounter:onDraw()
     local spec = self.spec_cutter
-    local unit = g_i18n:getAreaUnit(true)
-    local area = g_i18n:getArea(spec.usageCounter)
-    local sessionArea = g_i18n:getArea(spec.sessionCounter)
-    local text = g_i18n:getText("statistic_cutterCounter"):format(area, unit)
-        .. g_i18n:getText("statistic_sessionArea"):format(sessionArea, unit)
-
-    g_currentMission:addExtraPrintText(text)
+    if spec.hudExtension ~= nil then
+        g_currentMission.hud:addInfoExtension(spec.hudExtension)
+    end
 end
 
 ---@param streamId number
